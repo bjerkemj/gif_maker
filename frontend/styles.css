@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap');
+
+body, select, button {
+    font-family: 'Open Sans', sans-serif;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 50px;
+    background-color: #2E3A59;
+    color: white;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.1);
+}
+
+h1 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 24px;
+}
+
+.creators {
+    font-size: 14px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 80px auto 50px;
+    text-align: center;
+    background-color: #F4F6FB;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+}
+
+.picker-container {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+select {
+    padding: 10px 15px;
+    border-radius: 8px;
+    border: 1px solid #CED4DA;
+    background-color: #FFFFFF;
+    box-shadow: 0px 2px 4px rgba(0,0,0,0.05);
+    font-size: 16px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    background-color: #4A90E2;
+    color: white;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.1);
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #357ABD;
+}
+
+#gifImage {
+    max-width: 100%;
+    margin-top: 20px;
+}
