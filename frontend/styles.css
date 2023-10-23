@@ -37,6 +37,7 @@ h1 {
 .picker-container {
     display: flex;
     justify-content: center;
+    align-items: center; /* Added this line */
     gap: 20px;
     margin-bottom: 20px;
 }

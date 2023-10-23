@@ -9,12 +9,6 @@ function updateDays() {
         "July": 31, "August": 31, "September": 30, "October": 31, "November": 30, "December": 31
     };
 
-    // Handle leap year for February
-    const selectedYear = new Date().getFullYear();
-    if (monthSelect.value === "February" && ((selectedYear % 4 === 0 && selectedYear % 100 !== 0) || (selectedYear % 400 === 0))) {
-        monthDays["February"] = 29;
-    }
-
     // Clear existing days
     daySelect.innerHTML = "";
 
