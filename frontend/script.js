@@ -21,5 +21,37 @@ function updateDays() {
     }
 }
 
+const fetchButton = document.getElementById("fetchButton");
+
+fetchButton.addEventListener('click', async () => {
+    const month = document.getElementById("month").value;
+    const day = document.getElementById("day").value;
+
+    try {
+        const response = await fetch('http://localhost:3000/send-message', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ month, day })
+        });
+
+        const data = await response.json();
+        if (data.success) {
+            console.log("Message sent successfully!");
+
+            // Store the S3 URL in the session storage
+            sessionStorage.setItem('s3Url', data.s3Url);
+
+        } else {
+            console.error("Failed to send message:", data.message);
+        }
+
+        console.log(sessionStorage.getItem('s3Url'));
+    } catch (error) {
+        console.error("Error:", error);
+    }
+});
+
 // Initial population
 updateDays();
