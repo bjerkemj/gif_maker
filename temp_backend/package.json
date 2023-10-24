@@ -1,0 +1,21 @@
+{
+  "name": "temp_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sendMessages.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.433.0",
+    "@aws-sdk/hash-node": "^3.374.0",
+    "@aws-sdk/protocol-http": "^3.374.0",
+    "@aws-sdk/s3-request-presigner": "^3.433.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
