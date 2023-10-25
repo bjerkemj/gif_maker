@@ -1,47 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GIF</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
     <header>
-        <h1>Download Your GIF</h1>
-        <div class="creators">Creators: Andreas F. Børve og Johan Bjerkem</div>
+      <h1>Download Your GIF</h1>
+      <div class="creators">Creators: Andreas F. Børve og Johan Bjerkem</div>
     </header>
-    <div class="container">
-        <div class="picker-container">
-            <label for="month">Select Month:</label>
-            <select id="month">
-                <option value="January">January</option>
-                <option value="February">February</option>
-                <option value="March">March</option>
-                <option value="April">April</option>
-                <option value="May">May</option>
-                <option value="June">June</option>
-                <option value="July">July</option>
-                <option value="August">August</option>
-                <option value="September">September</option>
-                <option value="October">October</option>
-                <option value="November">November</option>
-                <option value="December">December</option>
-            </select>
-            
-            <label for="day">Select Day:</label>
-            <select id="day">
-                <!-- Days will be populated by JavaScript -->
-            </select>
-        </div>
-    
-        <button id="fetchButton">Fetch GIF</button>
-        
-        <div id="gifDisplay" style="display: none;">
-            <img id="gifImage" src="" alt="Your gif">
-            <button id="downloadButton">Download GIF</button>
-        </div>
+    <div class="container" id="inputContainer">
+      <div class="pickerContainer">
+        <label for="month">Select Month:</label>
+        <select id="month">
+          <option value="January">January</option>
+          <option value="February">February</option>
+          <option value="March">March</option>
+          <option value="April">April</option>
+          <option value="May">May</option>
+          <option value="June">June</option>
+          <option value="July">July</option>
+          <option value="August">August</option>
+          <option value="September">September</option>
+          <option value="October">October</option>
+          <option value="November">November</option>
+          <option value="December">December</option>
+        </select>
+
+        <label for="day">Select Day:</label>
+        <select id="day">
+          <!-- Days will be populated by JavaScript -->
+        </select>
+      </div>
+
+      <button id="fetchButton">Fetch GIF</button>
+
+      <div id="gifDisplay" style="display: none">
+        <img id="gifImage" src="" alt="Your gif" />
+        <button id="downloadButton">Download GIF</button>
+      </div>
+    </div>
+    <div class="container" id="loadingContainer" style="display: none;">
+      <p id="loadingText">Loading...</p>
     </div>
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

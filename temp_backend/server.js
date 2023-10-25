@@ -3,6 +3,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const { sendMessage } = require('./sendMessages');
+const { getGifFromS3 } = require('./s3helper');
 
 const app = express();
 const PORT = 3000;
@@ -22,6 +23,18 @@ app.post('/send-message', async (req, res) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ success: false, message: 'Internal server error' });
+    }
+});
+
+app.get('/get-gif', async (req, res) => {
+    try {
+        const objectKey = req.query.key;
+
+        const response = await getGifFromS3(objectKey);
+        res.send(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).send({ success: false, error: error.message });
     }
 });
 

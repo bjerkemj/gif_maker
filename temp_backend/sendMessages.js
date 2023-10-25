@@ -61,7 +61,7 @@ const createPresignedUrlWithoutClient = async ({ region, bucket, key }) => {
 };
 
 const sendMessage = async (month, day) => {
-  const KEY = `results/${day}-${month}.gif`;
+  const KEY = `${day}-${month}.gif`;
 
   // Generate the presigned URL for the worker to upload the result to
   const presignedUrl = await createPresignedUrlWithoutClient({
@@ -106,7 +106,7 @@ const sendMessage = async (month, day) => {
     console.log("Error", err);
   }
   
-  return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${KEY}`;
+  // return `https://${BUCKET}.s3.${REGION}.amazonaws.com/${KEY}`;
 };
 
 // Export the sendMessage function
