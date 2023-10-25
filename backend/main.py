@@ -7,11 +7,14 @@ import numpy as np
 from io import BytesIO
 import tempfile
 import boto3
-from data import validDates
+from data import validDates, month_to_number
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
 app = Flask(__name__)
 
-NASA_API_KEY = 'D7AfJnFqdgmWalfDUNfDA54Pv0Xqbg8cVAufszBb'
+NASA_API_KEY = os.getenv('API_KEY')
 NASA_API_URL = 'https://api.nasa.gov/EPIC/api/natural/date/'
 
 LOCAL_IMAGE_DIR = 'images'
@@ -21,20 +24,7 @@ region_name = 'ap-southeast-2'
 sqs = boto3.client('sqs', region_name=region_name)
 queue_url = 'https://sqs.ap-southeast-2.amazonaws.com/901444280953/group99'
 
-month_to_number = {
-    'January': '01',
-    'February': '02',
-    'March': '03',
-    'April': '04',
-    'May': '05',
-    'June': '06',
-    'July': '07',
-    'August': '08',
-    'September': '09',
-    'October': '10',
-    'November': '11',
-    'December': '12'
-}
+
 
 @app.route('/create_gif', methods=['POST'])
 def create_gif():
@@ -89,8 +79,6 @@ def fetch_images_from_nasa(date):
     else:
         return []
 
-
-
 def create_gif_from_images(image_data_list):
     img_objects = [Image.open(BytesIO(image_data)) for image_data in image_data_list]
 
@@ -117,8 +105,7 @@ def create_gif_from_images(image_data_list):
             duration=100,
             loop=0,
         )
-        return f.read()  # Return bytes data instead of file path
-
+        return f.read()
 
 def process_sqs_message():
     response = sqs.receive_message(
@@ -175,7 +162,6 @@ def process_sqs_message():
     else:
         print("No messages available in the queue.")
 
-
 def handle_http_response(response):
     if response.status_code == 200:
         return response.json()
@@ -187,8 +173,7 @@ def handle_http_response(response):
         print(f"Error: Received unexpected HTTP status code {response.status_code}")
     return None
 
-
-COOLING_PERIOD = 20  # seconds
+COOLING_PERIOD = 10
 
 def main():
     while True:
