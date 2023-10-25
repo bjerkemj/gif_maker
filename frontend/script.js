@@ -3,6 +3,23 @@ const daySelect = document.getElementById("day");
 const fetchButton = document.getElementById("fetchButton");
 const loadingContainer = document.getElementById("loadingContainer");
 const inputContainer = document.getElementById("inputContainer");
+const messageText = document.getElementById("messageText");
+const restartButton = document.getElementById("restartButton");
+
+function updateMessage(text, showRestart = false) {
+  text = text.replace(/\n/g, "<br>"); // Replace newline characters with <br>
+  messageText.innerHTML = text; // Use innerHTML to parse the <br> elements
+
+  if (showRestart) {
+    restartButton.style.display = "inline-block";
+    restartButton.addEventListener("click", () => {
+      // Refresh the page to restart the process
+      location.reload();
+    });
+  } else {
+    restartButton.style.display = "none";
+  }
+}
 
 monthSelect.addEventListener("change", updateDays);
 
@@ -41,6 +58,8 @@ fetchButton.addEventListener("click", async () => {
   inputContainer.style.display = "none"; // Hide the input container
   loadingContainer.style.display = "block"; // Display the loading text
 
+  updateMessage("Sending request...");
+
   try {
     const response = await fetch("http://localhost:3000/send-message", {
       method: "POST",
@@ -52,14 +71,16 @@ fetchButton.addEventListener("click", async () => {
 
     const data = await response.json();
     if (data.success) {
-      console.log("Message sent successfully!");
+      updateMessage(
+        "Job of creating GIF sent successfully!\nCreating GIF can take up to 1 minute."
+      );
+      console.log("Job of creating GIF sent successfully!");
 
       sessionStorage.setItem("s3KEY", `${day}-${month}.gif`);
     } else {
+      updateMessage("Failed to send message. Please restart.", true);
       console.error("Failed to send message:", data.message);
     }
-
-    console.log(sessionStorage.getItem("s3KEY"));
   } catch (error) {
     console.error("Error:", error);
   }
@@ -73,8 +94,11 @@ function startPolling() {
 
   const interval = setInterval(async () => {
     if (tries >= maxTries) {
+      updateMessage("Max tries reached. Please restart.\nEnter your birthday!");
       console.log("Max tries reached.");
       clearInterval(interval);
+      loadingContainer.style.display = "none"; // Hide the loading container
+      inputContainer.style.display = "block"; // Show the input container
       return;
     }
 
@@ -84,13 +108,27 @@ function startPolling() {
       const data = await response.json();
 
       if (data.success) {
+        updateMessage("GIF created!", true);
+        document.getElementById("downloadLink").style.display = "inline-block";
         console.log("GIF file retrieved successfully.");
         clearInterval(interval);
 
-        // If the server returns the direct S3 URL (requires public bucket/read permissions):
-        // const imgTag = document.createElement("img");
-        // imgTag.src = data.url;
-        // document.body.appendChild(imgTag);
+        // Display the GIF
+        const gifImage = document.getElementById("gifImage");
+        gifImage.src = data.url; // Assuming 'url' is the direct link to the gif
+        gifImage.alt = "Your gif";
+        document.getElementById("gifDisplay").style.display = "block";
+
+        // Try fetching the image as a blob and create an object URL for download
+    fetch(data.url).then(response => response.blob()).then(blob => {
+      const url = window.URL.createObjectURL(blob);
+      const downloadLink = document.getElementById("downloadLink");
+      downloadLink.href = url;
+      downloadLink.download = "yourGIF.gif";
+  });
+
+        // Hide the loading container
+        loadingContainer.style.display = "none";
       }
     } catch (error) {
       console.error("Error:", error);

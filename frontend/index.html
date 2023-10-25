@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GIF</title>
+    <link rel="icon" href="favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
@@ -11,6 +12,15 @@
       <h1>Download Your GIF</h1>
       <div class="creators">Creators: Andreas F. Børve og Johan Bjerkem</div>
     </header>
+
+    <div class="container" id="messageContainer">
+      <p id="messageText">Enter your birthday!</p>
+      <button id="restartButton" style="display: none">Restart</button>
+      <a id="downloadLink" href="#" download style="display: none">
+        <button id="downloadButton">Download GIF</button>
+      </a>
+    </div>
+
     <div class="container" id="inputContainer">
       <div class="pickerContainer">
         <label for="month">Select Month:</label>
@@ -36,14 +46,14 @@
       </div>
 
       <button id="fetchButton">Fetch GIF</button>
-
-      <div id="gifDisplay" style="display: none">
-        <img id="gifImage" src="" alt="Your gif" />
-        <button id="downloadButton">Download GIF</button>
-      </div>
     </div>
-    <div class="container" id="loadingContainer" style="display: none;">
+
+    <div class="container" id="loadingContainer" style="display: none">
       <p id="loadingText">Loading...</p>
+    </div>
+
+    <div class="container" id="gifDisplay" style="display: none">
+      <img id="gifImage" src="" alt="Your gif" />
     </div>
     <script src="script.js"></script>
   </body>

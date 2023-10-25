@@ -91,3 +91,24 @@ button:hover {
     margin-right: 10px;
     animation: spin 1s linear infinite;
 }
+
+#gifImage {
+    width: 100%;      /* Use the full width of its container */
+    max-width: 350px; /* Set a max width to ensure it doesn't get too big */
+    height: auto;     /* This will ensure the aspect ratio is maintained */
+    display: block;   /* To center the image horizontally */
+    margin: 0 auto;   /* Center the image in its container */
+}
+
+#messageContainer {
+    margin-top: 30px;
+    margin-bottom: -30px;
+  }
+  
+  #messageContainer button {
+    margin-right: 10px;
+}
+
+#messageContainer button:last-child {
+    margin-right: 0;
+}
