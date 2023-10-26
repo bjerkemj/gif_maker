@@ -30,17 +30,17 @@ def fetch_images_from_nasa(date):
     data = handle_http_response(response)
     if data is not None:
         image_urls = [f'https://epic.gsfc.nasa.gov/epic-archive/jpg/{image["image"]}.jpg' for image in data]
-        images = []
+        images = [None] * len(image_urls)  # Initialize a list with the same length as image_urls
         
         with ThreadPoolExecutor(max_workers=10) as executor:
-            futures = {executor.submit(fetch_image, image_url): image_url for image_url in image_urls}
+            futures = {executor.submit(fetch_image, image_url): index for index, image_url in enumerate(image_urls)}
             for future in as_completed(futures):
-                image_url = futures[future]
+                index = futures[future]
                 try:
                     image_data = future.result()
-                    images.append(image_data)
+                    images[index] = image_data  # Place the image data at the correct index
                 except Exception as exc:
-                    print(f"Error: Received error fetching image URL {image_url}: {exc}")
+                    print(f"Error: Received error fetching image URL {image_urls[index]}: {exc}")
 
         print(f"Time taken to fetch images from NASA: {time.time() - start_time} seconds")
         return images
