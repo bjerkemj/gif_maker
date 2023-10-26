@@ -37,3 +37,4 @@ build/
 # Optional: If you're using npm 5+, you might also want to ignore package-lock.json (or yarn.lock for Yarn users)
 # package-lock.json
 # yarn.lock
+*.gif
