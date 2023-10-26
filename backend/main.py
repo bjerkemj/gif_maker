@@ -1,5 +1,4 @@
 import time
-from flask import Flask, request, jsonify
 import requests
 import os
 from PIL import Image
@@ -8,11 +7,8 @@ from io import BytesIO
 import tempfile
 import boto3
 from data import validDates, month_to_number
-import os
 from dotenv import load_dotenv
 load_dotenv()
-
-app = Flask(__name__)
 
 NASA_API_KEY = os.getenv('API_KEY')
 NASA_API_URL = 'https://api.nasa.gov/EPIC/api/natural/date/'
@@ -23,44 +19,6 @@ LOCAL_GIF_DIR = 'gifs'
 region_name = 'ap-southeast-2'
 sqs = boto3.client('sqs', region_name=region_name)
 queue_url = 'https://sqs.ap-southeast-2.amazonaws.com/901444280953/group99'
-
-
-
-@app.route('/create_gif', methods=['POST'])
-def create_gif():
-    data = request.json
-    if 'inputDate' in data:
-        inputDate = data['inputDate']
-        response_data = create_gif_from_date(inputDate)
-        return jsonify(response_data)
-    else:
-        return jsonify({'error': 'Invalid data'}), 400
-
-def create_gif_from_date(inputDate):
-    month_day = inputDate
-
-    if month_day not in validDates:
-        return {'error': 'Invalid date'}, 400
-
-    year = validDates[month_day]
-    date = f"{year}-{month_day}"
-
-    images = fetch_images_from_nasa(date)
-    if not images:
-        return {'error': 'No images found for the given date'}, 400
-
-    image_paths = []
-    for i, image in enumerate(images):
-        image_path = os.path.join(LOCAL_IMAGE_DIR, f"{date}_image_{i}.jpg")
-        with open(image_path, 'wb') as f:
-            f.write(image)
-        image_paths.append(image_path)
-
-    gif_path = create_gif_from_images(image_paths)
-    local_gif_path = os.path.join(LOCAL_GIF_DIR, f"{date}_morphed_earth.gif")
-    os.rename(gif_path, local_gif_path)
-
-    return {'message': 'Morphed GIF creation completed', 'gif_path': local_gif_path}, 200
 
 def fetch_images_from_nasa(date):
     url = f"{NASA_API_URL}{date}?api_key={NASA_API_KEY}"
