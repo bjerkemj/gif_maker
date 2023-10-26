@@ -3,6 +3,7 @@ node_modules/
 
 # Environment variables and secrets
 .env
+myenv
 
 # Log files
 npm-debug.log*
