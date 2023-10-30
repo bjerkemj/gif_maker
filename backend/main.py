@@ -86,7 +86,6 @@ def create_gif_from_images(image_data_list, width=400, height=400):
         print(f"Time taken to create GIF from images: {time.time() - start_time} seconds")
         return f.read()
     
-
 def process_sqs_message():
     start_time = time.time()
     response = sqs.receive_message(
@@ -101,6 +100,7 @@ def process_sqs_message():
     messages = response.get('Messages')
     if messages:
         message = messages[0]
+        receipt_handle = message['ReceiptHandle']  # Save the receipt handle for deleting the message later
         attributes = message.get('MessageAttributes', {})
 
         day = attributes['Day']['StringValue']
@@ -128,6 +128,12 @@ def process_sqs_message():
 
                 if response.status_code == 200:
                     print('Successfully uploaded to S3')
+                    # Delete the message from the queue after successful processing
+                    sqs.delete_message(
+                        QueueUrl=queue_url,
+                        ReceiptHandle=receipt_handle,
+                    )
+                    print('Successfully deleted message from the queue')
                 else:
                     print('Failed to upload to S3. Status:', response.status_code, response.reason)
             except Exception as e:
@@ -135,7 +141,6 @@ def process_sqs_message():
 
         else:
             print("No images available for the given date.")
-
 
     else:
         print("No messages available in the queue.")
