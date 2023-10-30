@@ -14,11 +14,8 @@ load_dotenv()
 NASA_API_KEY = os.getenv('API_KEY')
 NASA_API_URL = 'https://api.nasa.gov/EPIC/api/natural/date/'
 
-LOCAL_IMAGE_DIR = 'images'
-LOCAL_GIF_DIR = 'gifs'
-
-region_name = 'ap-southeast-2'
-sqs = boto3.client('sqs', region_name=region_name)
+REGION_NAME = 'ap-southeast-2'
+sqs = boto3.client('sqs', region_name=REGION_NAME)
 queue_url = 'https://sqs.ap-southeast-2.amazonaws.com/901444280953/group99'
 
 def fetch_images_from_nasa(date):
