@@ -1,3 +1,5 @@
+const baseURL = "http://3.27.123.207:3000";
+
 const monthSelect = document.getElementById("month");
 const daySelect = document.getElementById("day");
 const fetchButton = document.getElementById("fetchButton");
@@ -61,7 +63,7 @@ fetchButton.addEventListener("click", async () => {
   updateMessage("Sending request...");
 
   try {
-    const response = await fetch("http://localhost:3000/send-message", {
+    const response = await fetch(`${baseURL}/send-message`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -104,7 +106,7 @@ function startPolling() {
 
     const key = sessionStorage.getItem("s3KEY");
     try {
-      const response = await fetch(`http://localhost:3000/get-gif?key=${key}`);
+      const response = await fetch(`${baseURL}/get-gif?key=${key}`);
       const data = await response.json();
 
       if (data.success) {
@@ -120,12 +122,14 @@ function startPolling() {
         document.getElementById("gifDisplay").style.display = "block";
 
         // Try fetching the image as a blob and create an object URL for download
-    fetch(data.url).then(response => response.blob()).then(blob => {
-      const url = window.URL.createObjectURL(blob);
-      const downloadLink = document.getElementById("downloadLink");
-      downloadLink.href = url;
-      downloadLink.download = "yourGIF.gif";
-  });
+        fetch(data.url)
+          .then((response) => response.blob())
+          .then((blob) => {
+            const url = window.URL.createObjectURL(blob);
+            const downloadLink = document.getElementById("downloadLink");
+            downloadLink.href = url;
+            downloadLink.download = "yourGIF.gif";
+          });
 
         // Hide the loading container
         loadingContainer.style.display = "none";
