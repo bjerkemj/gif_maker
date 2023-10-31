@@ -1,4 +1,4 @@
-const baseURL = "http://3.27.123.207:3000";
+const baseURL = "http://localhost:3000";
 
 const monthSelect = document.getElementById("month");
 const daySelect = document.getElementById("day");
