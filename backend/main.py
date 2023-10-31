@@ -21,7 +21,6 @@ queue_url = 'https://sqs.ap-southeast-2.amazonaws.com/901444280953/group99'
 def fetch_images_from_nasa(date):
     start_time = time.time()
     url = f"{NASA_API_URL}{date}?api_key={NASA_API_KEY}"
-    print(url)
     response = requests.get(url)
     print(response)
     data = handle_http_response(response)
