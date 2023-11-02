@@ -1,4 +1,4 @@
-// Define your server endpoint
+// Define server endpoint
 const url = 'http://localhost:3000';
 
 const request = require('request'); 
@@ -30,8 +30,8 @@ const simulatedMonth = 'October';
 const simulatedDay = '31';
 
 // Limit the number of requests
-const numRequests = 200; // You can change this to the desired number of requests
-const delayBetweenRequests = 40000; // milliseconds between requests
+const numRequests = 200; // Change this to the desired number of requests
+const delayBetweenRequests = 60000; // Milliseconds between requests
 
 let requestCount = 0;
 
